@@ -3,7 +3,7 @@ def fizzbuzz(input):
     fünfTeilbar = 'buzz'
     fünfzehnTeilbar = 'fizzbuzz'
 
-    print("------------------------")
+    print("--------------------------")
     for i in range(0, input+1):
         if i == 0:
             print(str(i))
