@@ -1,0 +1,54 @@
+Select Top 1000000 tblAssets.AssetID,
+  tblAssets.AssetName,
+  tblAssets.Description,
+  tblAssets.Lastseen,
+  tsysAssetTypes.AssetTypename,
+  tblAssetCustom.SerialNumberScanned,
+  tblAssetCustom.Custom2 As Server,
+  tblAssetCustom.WarrantyDateLock As [Garantie Man.-Erf.],
+  tblAssetCustom.Warrantydate,
+  tblAssetCustom.PurchaseDate,
+  tblAssetGroups.AssetGroup
+From tblAssets
+  Inner Join tsysAssetTypes On tblAssets.Assettype = tsysAssetTypes.AssetType
+  Inner Join tblAssetGroupLink On tblAssets.AssetID = tblAssetGroupLink.AssetID
+  Inner Join tblAssetGroups On tblAssetGroups.AssetGroupID =
+      tblAssetGroupLink.AssetGroupID
+  Inner Join tblAssetCustom On tblAssets.AssetID = tblAssetCustom.AssetID
+Where tblAssets.AssetID Not In (Select tblAssets.AssetID
+    From tblAssets Inner Join tblAssetGroupLink On tblAssets.AssetID =
+          tblAssetGroupLink.AssetID Inner Join tblAssetGroups On
+          tblAssetGroups.AssetGroupID = tblAssetGroupLink.AssetGroupID
+    Where tblAssetGroups.AssetGroup Like 'Itris Assets') And
+  tblAssetCustom.Custom2 = 'Yes' And tblAssetCustom.Warrantydate < GetDate() +
+  60
+Order By tblAssetCustom.Warrantydate Desc
+-----
+
+
+
+Select Top 1000000 tblAssets.AssetID,
+  tblAssets.AssetName,
+  tblAssets.Description,
+  tblAssets.Lastseen,
+  tsysAssetTypes.AssetTypename,
+  tblAssetCustom.SerialNumberScanned,
+  tblAssetCustom.Custom2 As Server,
+  tblAssetCustom.WarrantyDateLock As [Garantie Man.-Erf.],
+  tblAssetCustom.Warrantydate,
+  tblAssetCustom.PurchaseDate,
+  tblAssetGroups.AssetGroup
+From tblAssets
+  Inner Join tsysAssetTypes On tblAssets.Assettype = tsysAssetTypes.AssetType
+  Inner Join tblAssetGroupLink On tblAssets.AssetID = tblAssetGroupLink.AssetID
+  Inner Join tblAssetGroups On tblAssetGroups.AssetGroupID =
+      tblAssetGroupLink.AssetGroupID
+  Inner Join tblAssetCustom On tblAssets.AssetID = tblAssetCustom.AssetID
+Where tblAssets.AssetID Not In (Select tblAssets.AssetID
+    From tblAssets Inner Join tblAssetGroupLink On tblAssets.AssetID =
+          tblAssetGroupLink.AssetID Inner Join tblAssetGroups On
+          tblAssetGroups.AssetGroupID = tblAssetGroupLink.AssetGroupID
+    Where tblAssetGroups.AssetGroup Like 'Itris Assets') And
+  tblAssetCustom.Custom2 = 'Yes' And tblAssetCustom.Warrantydate < GetDate() +
+  60 And tblAssetGroups.AssetGroup = 'Default Group'
+Order By tblAssetCustom.Warrantydate Desc
